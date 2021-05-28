@@ -7,9 +7,12 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class GameMenu {
+
+    // TODO need to figure out who current player is after players have been selected then print a message saying whose turn it is
 
     private Player player1;
     private Player player2;
@@ -32,12 +35,18 @@ public class GameMenu {
         System.out.println("=================================================");
 
         newGame = new Gomoku(player1, player2);
+        System.out.println(newGame.getCurrent().getName() + " will go first.");
+        System.out.println();
         runGame(newGame);
     }
 
     private void runGame(Gomoku game) {
         Result res;
+
         while(!game.isOver()) {
+            String currentPlayer = game.getCurrent().getName();
+            int row;
+            int col;
             // game loop here
             // I may need to break up turnResult to make it more readable lol
             Stone currentTurn = game.getCurrent().generateMove(game.getStones());
@@ -49,12 +58,26 @@ public class GameMenu {
                     System.out.print("Please enter the row [1-15]: ");
                     console.next();
                 }
+                row = console.nextInt();
+                System.out.print("Please enter the column [1-15]: ");
+                while(!console.hasNextInt()) {
+                    System.out.println("Please enter a valid integer.");
+                    System.out.print("Please enter the column [1-15]: ");
+                    console.next();
+                }
+                col = console.nextInt();
+                if (game.isBlacksTurn()) {
+                    currentTurn = new Stone(row, col, true);
+                } else {
+                    currentTurn = new Stone(row, col, false);
+                }
             }
-            int turnResult = renderGameMessage(game.place(currentTurn), game);
-            if (turnResult == 0) {
-                confirmGameExit(console);
+            res = game.place(currentTurn);
+            if (res.getMessage() == null && res.isSuccess()) {
+                System.out.println(currentPlayer + " moved successfully. Next player.");
+                System.out.println();
             } else {
-                continue;
+                System.out.println(res.getMessage());
             }
         }
         confirmGameExit(console);
@@ -76,6 +99,7 @@ public class GameMenu {
             console.next();
         }
         int choice = console.nextInt();
+        console.nextLine();
         switch(choice) {
             case 1:
                 player = generateHumanPlayer(console);
@@ -98,27 +122,6 @@ public class GameMenu {
         Player human = new HumanPlayer(name);
         System.out.println(name + " has been added to the game.");
         return human;
-    }
-    private int renderGameMessage(Result res, Gomoku game) {
-        // have this return an int, and based on the int it returns, something will happen in run game
-        // 0 means the game is over, 1 means an invalid move was made
-        String message = res.getMessage();
-        if (message.equals("Game is over.")) {
-            System.out.println(game.getWinner() + " has won the game!");
-            return 0;
-        } else if (message.equals("Stone is off the board") || message.equals("Wrong player.") || message.equals("Duplicate move.")) {
-            System.out.println(message);
-            return 1;
-        } else if (message.equals("Game ends in a draw.")) {
-            System.out.println(message);
-            return 0;
-        } else if (message.equals(game.getWinner() + " wins.")) {
-            System.out.println(message);
-            System.out.println();
-            return 0;
-        } else if (message == null && res.isSuccess()){
-            return -1;
-        }
     }
 
     private void confirmGameExit(Scanner console) {
