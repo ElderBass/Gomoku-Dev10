@@ -6,7 +6,6 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class GameMenu {
@@ -14,10 +13,36 @@ public class GameMenu {
     private Player player1;
     private Player player2;
     private Gomoku newGame;
-    private boolean gameIsOver = false;
+
     private Scanner console = new Scanner(System.in);
 
-    public Player handleChoosePlayer(Scanner console) {
+    public void startGame(Scanner console) {
+        System.out.println("Welcome to Gomoku: Java Style");
+        System.out.println("=================================================");
+        System.out.println("This is a two player game. Player 1 chooses first.");
+        System.out.println();
+        player1 = handleChoosePlayer(console);
+
+        System.out.println("=================================================");
+        System.out.println("Great. Now Player 2 chooses.");
+        System.out.println();
+        player2 = handleChoosePlayer(console);
+        System.out.println("=================================================");
+
+        newGame = new Gomoku(player1, player2);
+        runGame(newGame);
+    }
+
+    private void runGame(Gomoku game) {
+
+        while(!game.isOver()) {
+            // game loop here
+            game.place(game.getCurrent().generateMove(game.getStones()));
+        }
+        confirmGameExit(console);
+    }
+
+    private Player handleChoosePlayer(Scanner console) {
         Player player = null;
         System.out.println("Please Choose A Player Type");
         System.out.println();
@@ -47,7 +72,7 @@ public class GameMenu {
         return player;
     }
 
-    public Player generateHumanPlayer(Scanner console) {
+    private Player generateHumanPlayer(Scanner console) {
         System.out.print("Please enter a name for the player: ");
         String name = console.nextLine();
         Player human = new HumanPlayer(name);
@@ -55,5 +80,19 @@ public class GameMenu {
         return human;
     }
 
-
+    private void confirmGameExit(Scanner console) {
+        System.out.println("Would you like to start a new game [y/n]? ");
+        String choice = console.nextLine().trim().toLowerCase();
+        System.out.println();
+        switch (choice) {
+            case "y":
+                System.out.println("Excellent! Resetting the board...");
+                startGame(console);
+                break;
+            case "n":
+                System.out.println("Thanks for playing!");
+                System.exit(0);
+                break;
+        }
+    }
 }
