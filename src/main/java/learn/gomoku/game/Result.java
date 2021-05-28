@@ -1,7 +1,7 @@
 package learn.gomoku.game;
 
 import java.util.Objects;
-
+// this bad boy is what we'll use for displaying messages after each turn
 public class Result {
 
     private final boolean success;

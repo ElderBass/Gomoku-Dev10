@@ -67,7 +67,8 @@ public class Gomoku {
         if (board[stone.getRow()][stone.getColumn()] != 0) {
             return new Result("Duplicate move.");
         }
-
+        // Basically checking if it's black's turn and if it is, the stone symbol is B, otherwise it's W
+        // just think of the whole ternary operator is a variable, conditioned on blacksTurn
         board[stone.getRow()][stone.getColumn()] = blacksTurn ? 'B' : 'W';
         stones.add(stone);
 
@@ -96,7 +97,8 @@ public class Gomoku {
                 && stone.getRow() >= 0 && stone.getRow() < WIDTH
                 && stone.getColumn() >= 0 && stone.getColumn() < WIDTH;
     }
-
+    // Checks position of move on board and counts in every direction the number of same symbols
+    // If the number of symbols in any consecutive direction adds to 4 --> returns true : else false
     private boolean isWin(Stone stone) {
         char symbol = board[stone.getRow()][stone.getColumn()];
         return isHorizontalWin(stone.getRow(), stone.getColumn(), symbol)
@@ -130,7 +132,8 @@ public class Gomoku {
         int result = 0;
         int r = row + deltaRow;
         int c = col + deltaCol;
-
+        // while the symbol is on the board, count the number of symbols in the designated directions as
+        // dictated by the delta values for row/col
         while (r >= 0 && r < WIDTH && c >= 0 && c < WIDTH && board[r][c] == symbol) {
             result++;
             r += deltaRow;

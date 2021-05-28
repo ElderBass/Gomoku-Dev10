@@ -10,5 +10,9 @@ public class App {
         // print a randomizing message
 
         // create a hashmap for handling  gameboard state?
+
+        // I'm guessing the methods for making moves are booleans and return true/false
+            // use these to display messages (e.g. if (moveWasValid == false) --> prompt user for move again
+
     }
 }
