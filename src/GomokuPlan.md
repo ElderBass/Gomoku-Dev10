@@ -39,6 +39,7 @@
   * **Player player 1** = new Player() -- make it an interface to account for both potential possibilities
   * **Player player 2** = new Player() -- same as above
   * **Gomoku game** = new Gomoku(Player1, Player2) -- we will eventually pass in the players, obviously not right away
+  * **GameBoard board** = new GameBoard() -- for tracking our gameboard state
   * **boolean gameIsOver** = false; -- we will use this for our game loop
   * May need a few more, but I'm thinking these three for sure
   ### Methods Needed (tentative list - names not final)
