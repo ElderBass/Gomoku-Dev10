@@ -1,10 +1,19 @@
 # Gomoku Assessment Plan
 
-* Need a GameMenu class for sure and probably a GameBoard class
-* Need to prompt for user input on choosing player type
-    * With this, create a new instance of either Human or RandomPlayer
-* Once both players are chosen, pass them into Game class and start game
-* Print the board and prompt player 1 for move input
+## Overall Flow
+* Start the game in App class --> prompt user to choose player types
+  * If human player chosen --> prompt user to enter the player's name
+  * If random --> move to next choice
+* Once two players are added, initialize the game
+* Print the game board to the screen and let user know whose turn it is
+* Run the game in a game loop until it is over
+    * Prompt appropriate player for two inputs: row and column they wish to move to
+    * Once valid input of move is achieved, update game board, print new board, then switch players
+    * Stay in loop doing these tasks until game is over
+* Once game is over, exit the loop and run an exit menu function
+  * Prompt the user to confirm if they wish to restart the game or exit the program
+  * Restart game if they wish by running the intial method again
+  * Exit program if they wish to end
 
 ## GameMenu Class
 ### Overview
