@@ -77,18 +77,19 @@
 * Board will have numbers by each col and grid marking their spots
 
 ### Fields
-* Some field for managing the board's state...I'm not entirely sure about this yet but I'm thinking a HashMap
-  * e.g. have the keys be the position on the board ("0105") and the values be the symbol "X", "O", or "_"
-  * by default all the values will be "_"
+* Some field for managing the board's state...I'm not entirely sure about this yet but I'm thinking a HashMap or 2D array
+  * Leaning towards 2D array for rows and columns
+    * By default all the values will be "_" except for the whole first row (which will be column numbers) and the first position of every subsequent row
 * That might be the only field necessary honestly
 
 ### Methods
 * **printGameBoard()** -- basically exactly what it sounds like
-  * Will capture the state from the HashMap and print the appropriate characters in a grid style
+  * Will capture the state from the 2D array and print the appropriate characters in a grid style
   * Still need to work out exactly how this grid will work and how to print it but shouldn't be too bad
+    * Basically just loop through the 2D and print the appropriate symbols
 * **updateGameBoard()** -- essentially a setter for the gameboard HashMap state
-  * will take in input from the user's move, once it's valid, and update the place on the board with that player's symbol
-  * this will return a new updated HashMap of the gameboard, to be passed into printGameBoard
+  * will take in input from the user's move in the form of Stone, once it's valid, and update the place on the board ([row][col]) with that player's symbol
+  * this will return a new updated 2D of the gameboard, to be passed into printGameBoard
     * Might not even need to pass in as an argument and just have printBoard grab the updated field
 
   
