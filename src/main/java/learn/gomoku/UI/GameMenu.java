@@ -12,14 +12,10 @@ import java.util.Scanner;
 
 public class GameMenu {
 
-    // TODO need to figure out who current player is after players have been selected then print a message saying whose turn it is
-
     private Player player1;
     private Player player2;
     private Gomoku newGame;
     private GameBoard board;
-
-    private Scanner console = new Scanner(System.in);
 
     public void startGame(Scanner console) {
         System.out.println("Welcome to Gomoku: Java Style");
@@ -37,14 +33,16 @@ public class GameMenu {
         newGame = new Gomoku(player1, player2);
         System.out.println(newGame.getCurrent().getName() + " will go first.");
         System.out.println();
-        runGame(newGame);
+        runGame(newGame, console);
     }
 
-    private void runGame(Gomoku game) {
+    private void runGame(Gomoku game, Scanner console) {
         Result res;
 
         while(!game.isOver()) {
             String currentPlayer = game.getCurrent().getName();
+            System.out.println("It is " + currentPlayer + "'s turn.");
+            System.out.println();
             int row;
             int col;
             // game loop here
@@ -82,8 +80,6 @@ public class GameMenu {
         }
         confirmGameExit(console);
     }
-
-    // TODO renderGameMessage(Result res) needs to be written
 
     private Player handleChoosePlayer(Scanner console) {
         Player player = null;
@@ -125,18 +121,28 @@ public class GameMenu {
     }
 
     private void confirmGameExit(Scanner console) {
-        System.out.println("Would you like to start a new game [y/n]? ");
-        String choice = console.nextLine().trim().toLowerCase();
-        System.out.println();
-        switch (choice) {
-            case "y":
-                System.out.println("Excellent! Resetting the board...");
-                startGame(console);
-                break;
-            case "n":
-                System.out.println("Thanks for playing!");
-                System.exit(0);
-                break;
+        // TODO this is skipping this first scanner input and I'm not sure why
+        boolean isValid = false;
+        String choice = "";
+        while(!isValid) {
+            System.out.print("Would you like to start a new game [y/n]? ");
+            choice = console.nextLine();
+            if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("n")) {
+                isValid = true;
+            } else {
+                System.out.println();
+                System.out.println("I'm sorry, but that is not a valid answer. Please try again.");
+            }
         }
+        if (choice.equalsIgnoreCase("y")) {
+            System.out.println();
+            System.out.println("Splendid! Resetting the game board now...");
+            startGame(console);
+        } else if (choice.equalsIgnoreCase("n")) {
+            System.out.println();
+            System.out.println("Thanks for playing!");
+            System.exit(0);
+        }
+
     }
 }
