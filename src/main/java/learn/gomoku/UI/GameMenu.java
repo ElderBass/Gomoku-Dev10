@@ -7,7 +7,6 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class GameMenu {
@@ -38,15 +37,15 @@ public class GameMenu {
 
     private void runGame(Gomoku game, Scanner console) {
         Result res;
-
+        GameBoard board = new GameBoard();
         while(!game.isOver()) {
+            board.printGameBoard(game.getStones());
             String currentPlayer = game.getCurrent().getName();
             System.out.println("It is " + currentPlayer + "'s turn.");
             System.out.println();
             int row;
             int col;
-            // game loop here
-            // I may need to break up turnResult to make it more readable lol
+
             Stone currentTurn = game.getCurrent().generateMove(game.getStones());
             // TODO could maybe wrap this into a method...later...
             if (currentTurn == null) {
