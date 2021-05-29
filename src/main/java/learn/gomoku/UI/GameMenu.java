@@ -7,14 +7,14 @@ import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class GameMenu {
-
+// TODO keeps saying that moving to 15 is off the board...
     private Player player1;
     private Player player2;
     private Gomoku newGame;
-    private GameBoard board;
 
     public void startGame(Scanner console) {
         System.out.println("Welcome to Gomoku: Java Style");
@@ -55,14 +55,14 @@ public class GameMenu {
                     System.out.print("Please enter the row [1-15]: ");
                     console.next();
                 }
-                row = console.nextInt();
+                row = console.nextInt() - 1;
                 System.out.print("Please enter the column [1-15]: ");
                 while(!console.hasNextInt()) {
                     System.out.println("Please enter a valid integer.");
                     System.out.print("Please enter the column [1-15]: ");
                     console.next();
                 }
-                col = console.nextInt();
+                col = console.nextInt() - 1;
                 if (game.isBlacksTurn()) {
                     currentTurn = new Stone(row, col, true);
                 } else {
@@ -77,6 +77,7 @@ public class GameMenu {
                 System.out.println(res.getMessage());
             }
         }
+        board.printGameBoard(game.getStones());
         confirmGameExit(console);
     }
 
@@ -120,6 +121,7 @@ public class GameMenu {
     }
 
     private void confirmGameExit(Scanner console) {
+
         // TODO this is skipping this first scanner input and I'm not sure why
         boolean isValid = false;
         String choice = "";

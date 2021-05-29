@@ -14,9 +14,9 @@ public class GameBoard {
         System.out.println();
         int count = 1;
         System.out.println("  01 02 03 04 05 06 07 08 09 10 11 12 13 14 15");
-        for (int row = 1; row < 16; row++) {
+        for (int row = 0; row < 15; row++) {
             printRowNumber(count);
-            for (int col = 1; col < 16; col++) {
+            for (int col = 0; col < 15; col++) {
                 if (getStoneAtPosition(stones, row, col) == null) {
                     System.out.print(emptySymbol);
                 } else if (getStoneAtPosition(stones, row, col).isBlack()) {
