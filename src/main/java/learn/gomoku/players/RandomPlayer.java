@@ -46,7 +46,8 @@ public class RandomPlayer implements Player {
             Stone lastMove = previousMoves.get(previousMoves.size() - 1);
             isBlack = !lastMove.isBlack();
         }
-
+        // TODO for a CustomPlayer, we could not random.nextInt(previousMove.getRow() + 1) and same for column
+        // TODO I wonder if there's an overloaded version of random.nextInt() that can pass in a lower bound as well as upper...
         return new Stone(
                 random.nextInt(Gomoku.WIDTH),
                 random.nextInt(Gomoku.WIDTH),
