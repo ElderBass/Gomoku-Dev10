@@ -36,7 +36,21 @@ public class GameMenu {
     }
 
     private void runGame(Gomoku game, Scanner console) {
-        handlePlayerTurn(game, console);
+
+        GameBoard board = new GameBoard();
+
+        while(!game.isOver()) {
+
+            Stone currentTurn = game.getCurrent().generateMove(game.getStones());
+
+            // Just prints the board and a legend with it, indicating which player has which symbol on the board
+            renderBoard(game, board);
+
+            handlePlayerTurn(game, currentTurn, console);
+        }
+        // Print game board once more after game has finished
+        board.printGameBoard(game.getStones());
+
         // Move into the "Exit" method
         confirmGameExit(console);
     }
@@ -80,55 +94,57 @@ public class GameMenu {
         return human;
     }
 
-    private void handlePlayerTurn(Gomoku game, Scanner console) {
+    private void handlePlayerTurn(Gomoku game, Stone currentTurn, Scanner console) {
         Result res;
-        GameBoard board = new GameBoard();
-        while(!game.isOver()) {
-            board.printGameBoard(game.getStones());
-            String currentPlayer = game.getCurrent().getName();
-            System.out.println("It is " + currentPlayer + "'s turn.");
-            System.out.println();
-            int row;
-            int col;
+        // Initialize these, which we will capture via user input;
+        int row;
+        int col;
 
-            Stone currentTurn = game.getCurrent().generateMove(game.getStones());
-            // TODO could maybe wrap this into a method...later...
-            if (currentTurn == null) {
+        String currentPlayer = game.getCurrent().getName();
+
+        // TODO could maybe wrap this into a method...later...
+        if (currentTurn == null) {
+            System.out.print("Please enter the row [1-15]: ");
+            while(!console.hasNextInt()) {
+                System.out.println("Please enter a valid integer.");
                 System.out.print("Please enter the row [1-15]: ");
-                while(!console.hasNextInt()) {
-                    System.out.println("Please enter a valid integer.");
-                    System.out.print("Please enter the row [1-15]: ");
-                    console.next();
-                }
-                row = console.nextInt() - 1;
-                System.out.print("Please enter the column [1-15]: ");
-                while(!console.hasNextInt()) {
-                    System.out.println("Please enter a valid integer.");
-                    System.out.print("Please enter the column [1-15]: ");
-                    console.next();
-                }
-                col = console.nextInt() - 1;
-                if (game.isBlacksTurn()) {
-                    currentTurn = new Stone(row, col, true);
-                } else {
-                    currentTurn = new Stone(row, col, false);
-                }
+                console.next();
             }
-            res = game.place(currentTurn);
-            if (res.getMessage() == null && res.isSuccess()) {
-                System.out.println(currentPlayer + " moved successfully. Next player.");
-                System.out.println();
+            row = console.nextInt() - 1;
+            System.out.print("Please enter the column [1-15]: ");
+            while(!console.hasNextInt()) {
+                System.out.println("Please enter a valid integer.");
+                System.out.print("Please enter the column [1-15]: ");
+                console.next();
+            }
+            col = console.nextInt() - 1;
+            if (game.isBlacksTurn()) {
+                currentTurn = new Stone(row, col, true);
             } else {
-                System.out.println(res.getMessage());
+                currentTurn = new Stone(row, col, false);
             }
         }
-        // Print final game board once game has finished
+        res = game.place(currentTurn);
+        if (res.getMessage() == null && res.isSuccess()) {
+            System.out.println(currentPlayer + " moved successfully. Next player.");
+            System.out.println();
+        } else {
+            System.out.println(res.getMessage());
+        }
+    }
+
+    private void renderBoard(Gomoku game, GameBoard board) {
         board.printGameBoard(game.getStones());
+        System.out.println(player1.getName() + " = O");
+        System.out.println((player2.getName() + " = X"));
+        System.out.println("It is " + game.getCurrent().getName() + "'s turn.");
+        System.out.println();
     }
 
     private void confirmGameExit(Scanner console) {
 
         // TODO this is skipping this first scanner input and I'm not sure why
+        // This weirdly only skips the first scanner if there is at least one Human player. Two Randoms will not skip the first question...
         boolean isValid = false;
         String choice = "";
         while(!isValid) {
