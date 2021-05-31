@@ -77,7 +77,9 @@ public class GameMenu {
                 System.out.println(res.getMessage());
             }
         }
+        // Print final game board once game has finished
         board.printGameBoard(game.getStones());
+        // Move into the "Exit" method
         confirmGameExit(console);
     }
 
