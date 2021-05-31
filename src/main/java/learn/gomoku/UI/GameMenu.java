@@ -17,7 +17,10 @@ public class GameMenu {
     private Player player2;
     private Gomoku newGame;
 
-    // Method to initialize player1, player2, and a new Gomoku game based on user input
+    /** Method to initialize player1, player2, and a new Gomoku game based on user input
+     * 
+     * @param console An instance of Scanner for capturing user input
+     */
     public void startGame(Scanner console) {
         // Welcome message
         System.out.println("Welcome to Gomoku: Java Style");
@@ -43,30 +46,38 @@ public class GameMenu {
         System.out.println(newGame.getCurrent().getName() + " will go first.");
         System.out.println();
         // Now we pass in our newGame field into the runGame method along with our console
-        runGame(newGame, console);
+        runGame(console);
     }
 
-    private void runGame(Gomoku game, Scanner console) {
+    /** Method for creating and remaining within the game loop, handling player turns and printing the board, until the game is over
+     * 
+     * @param console An instance of Scanner for capturing user input
+     */
+    private void runGame(Scanner console) {
         // Initialize a new GameBoard instance which will track the game's state and print an updated board based on players' moves
         GameBoard board = new GameBoard();
 
-        // Our game loop - we will stay in here until our Gomoku game.isOver boolean returns true
-        while (!game.isOver()) {
+        // Our newGame loop - we will stay in here until our Gomoku newGame.isOver boolean returns true
+        while (!newGame.isOver()) {
 
             // Just prints the board and a legend with it, indicating which player has which symbol on the board
-            renderBoard(game, board);
+            renderBoard(board);
 
-            // Method for handling a player's turn - doesn't return anything but keeps our Gomoku game updated with moves
-            handlePlayerTurn(game, console);
+            // Method for handling a player's turn - doesn't return anything but keeps our Gomoku newGame updated with moves
+            handlePlayerTurn(console);
         }
-        // Print game board once more after game has finished to see the3 final result
-        board.printGameBoard(game.getStones());
+        // Print newGame board once more after newGame has finished to see the3 final result
+        board.printGameBoard(newGame.getStones());
 
         // Move into the "Exit" method
         confirmGameExit(console);
     }
 
-    // Method for creating a new Human or Random player based on user's input
+    /** Method for creating a new Human or Random player based on user's input
+     *
+     * @param console An instance of Scanner for capturing user input
+     * @return A new instance of Player interface, either HumanPlayer or RandomPlayer based on what the user chooses
+     */
     private Player handleChoosePlayer(Scanner console) {
         // Declare a new player and just set it to null for now
         Player player = null;
@@ -111,7 +122,11 @@ public class GameMenu {
         return player;
     }
 
-    // Method for specifically creating a Human player and having the user name the new player
+    /** Method for specifically creating a Human player and having the user name the new player
+     *
+     * @param console An instance of Scanner for capturing user input
+     * @return A new instance of a HumanPlayer, whose name is created by the user
+     */
     private Player generateHumanPlayer(Scanner console) {
 
         // Prompt user for a name and capture it in a variable - don't really need validation since the user can name it whatever they want
@@ -122,8 +137,11 @@ public class GameMenu {
         return new HumanPlayer(name);
     }
 
-    // Method for
-    private void handlePlayerTurn(Gomoku game, Scanner console) {
+    /** Method for managing a player's turn in Gomoku and updating the newGame's state based on the move
+     *
+     * @param console An instance of Scanner for capturing user input
+     */
+    private void handlePlayerTurn(Scanner console) {
 
         // This Result we initialize and will use to print out the corresponding message based on a player's move
         Result res;
@@ -133,10 +151,10 @@ public class GameMenu {
         int col;
 
         // Declare a new Stone which will be the current player's move on the board
-        Stone currentTurn = game.getCurrent().generateMove(game.getStones());
+        Stone currentTurn = newGame.getCurrent().generateMove(newGame.getStones());
 
         // One more variable we need, which is the current player's name, just for UI purposes of keeping track of whose turn it is
-        String currentPlayer = game.getCurrent().getName();
+        String currentPlayer = newGame.getCurrent().getName();
 
         // generateMove will return a Stone that is null if it's a HumanPlayer's move
         // We have to capture the Human's input from the console to actually generate a move
@@ -162,14 +180,14 @@ public class GameMenu {
 
             // Now, once a move is made, see if it was black's turn or not
             // Pass the relevant arguments into the Stone constructor and set this new stone to our currentTurn stone
-            if (game.isBlacksTurn()) {
+            if (newGame.isBlacksTurn()) {
                 currentTurn = new Stone(row, col, true);
             } else {
                 currentTurn = new Stone(row, col, false);
             }
         }
         // Assign our Result variable to the Result that is return by passing our currentTurn stone into the .place method
-        res = game.place(currentTurn);
+        res = newGame.place(currentTurn);
 
         // If the res.getMessage() is null, that means a move was made successfully and the game is still going
         // So we print a message saying as much and move to the next player
@@ -183,22 +201,28 @@ public class GameMenu {
         }
     }
 
-    // Simple method for rendering an updated Gomoku board based on all the moves thus far
-    private void renderBoard(Gomoku game, GameBoard board) {
+    /** Simple method for rendering an updated Gomoku board based on all the moves thus far
+     *
+     * @param board An instance of a GameBoard class representing the current game's state, to be printed to the console
+     */
+    private void renderBoard(GameBoard board) {
 
         // This method is explained further in the GameBoard class, but basically just prints the board with appropriately placed symbols
-        board.printGameBoard(game.getStones());
+        board.printGameBoard(newGame.getStones());
 
         // Just a legend to indicate which player has which symbol on the board
         System.out.println(player1.getName() + " = O");
         System.out.println((player2.getName() + " = X"));
 
         // After printing the board, remind the user whose turn it is
-        System.out.println("It is " + game.getCurrent().getName() + "'s turn.");
+        System.out.println("It is " + newGame.getCurrent().getName() + "'s turn.");
         System.out.println();
     }
 
-    // Method for restarting or exiting the game based on what the user wants to do once a game finishes
+    /** Method for restarting or exiting the game based on what the user wants to do once a game finishes
+     *
+     * @param console An instance of Scanner for capturing user input
+     */
     private void confirmGameExit(Scanner console) {
 
         // TODO this is skipping this first scanner input and I'm not sure why

@@ -11,7 +11,12 @@ public class GameBoard {
     private String whiteSymbol = " X ";
     private String emptySymbol = " _ ";
 
-    // Main method for actually printing the game board's symbols in the appropriate places
+    /** Main method for actually printing the game board's symbols in the appropriate places
+     * Takes in game stones and prints either an O, X, or _ depending on what's there
+     *
+     * @param stones = the Gomoku game class's ArrayList of Stones representing the game's move history
+     *
+     */
     public void printGameBoard(List<Stone> stones) {
         System.out.println();
 
@@ -46,7 +51,13 @@ public class GameBoard {
         System.out.println();
     }
 
-    // Custom helper method for checking if a stone is at a specific position on the board
+    /** Custom helper method for checking if a stone is at a specific position on the board
+     *
+     * @param stones Gomoku game class's ArrayList of Stones, which we cross reference with row and column positions also passed in
+     * @param row Which row on the Gomoku board a Stone is at
+     * @param col Which column on the Gomoku board a Stone is at
+     * @return Returns null if no stone was found at the row/col position passed in, or the Stone at that row/col position
+     */
     public Stone getStoneAtPosition(List<Stone> stones, int row, int col) {
         // If in our stones array we find a stone at this position, return the stone
         for (Stone stone : stones) {
@@ -58,8 +69,10 @@ public class GameBoard {
         return null;
     }
 
-    // Simple helper method for printing the row number (e.g. "01") next to its corresponding row
-    // Pass in a count integer which represent what row on the board we are on
+    /** Simple helper method for printing the row number (e.g. "01", "15") next to its corresponding row
+     *
+     * @param count An integer indicating at which row number we want to print
+     */
     public void printRowNumber(int count) {
 
         // If the count is between 1 and 10, we want to add a leading 0 for format purposes
