@@ -36,6 +36,51 @@ public class GameMenu {
     }
 
     private void runGame(Gomoku game, Scanner console) {
+        handlePlayerTurn(game, console);
+        // Move into the "Exit" method
+        confirmGameExit(console);
+    }
+
+    private Player handleChoosePlayer(Scanner console) {
+        Player player = null;
+        System.out.println("Please Choose A Player Type");
+        System.out.println();
+        System.out.println("1 - Human Player");
+        System.out.println("2 - Random Player");
+        System.out.println("=================================================");
+        System.out.print("What is your choice [1 or 2]? ");
+        while(!console.hasNextInt()) {
+            System.out.println("That is not a valid choice. Please try again.");
+            System.out.print("What is your choice [1 or 2]? ");
+            console.next();
+        }
+        int choice = console.nextInt();
+        console.nextLine();
+        switch(choice) {
+            case 1:
+                player = generateHumanPlayer(console);
+                break;
+            case 2:
+                player = new RandomPlayer();
+                System.out.println(player.getName() + " has been added to the game.");
+                break;
+            default:
+                System.out.println("That is not a valid option. Please try again.");
+                handleChoosePlayer(console);
+                break;
+        }
+        return player;
+    }
+
+    private Player generateHumanPlayer(Scanner console) {
+        System.out.print("Please enter a name for the player: ");
+        String name = console.nextLine();
+        Player human = new HumanPlayer(name);
+        System.out.println(name + " has been added to the game.");
+        return human;
+    }
+
+    private void handlePlayerTurn(Gomoku game, Scanner console) {
         Result res;
         GameBoard board = new GameBoard();
         while(!game.isOver()) {
@@ -79,47 +124,6 @@ public class GameMenu {
         }
         // Print final game board once game has finished
         board.printGameBoard(game.getStones());
-        // Move into the "Exit" method
-        confirmGameExit(console);
-    }
-
-    private Player handleChoosePlayer(Scanner console) {
-        Player player = null;
-        System.out.println("Please Choose A Player Type");
-        System.out.println();
-        System.out.println("1 - Human Player");
-        System.out.println("2 - Random Player");
-        System.out.println("=================================================");
-        System.out.print("What is your choice [1 or 2]? ");
-        while(!console.hasNextInt()) {
-            System.out.println("That is not a valid choice. Please try again.");
-            System.out.print("What is your choice [1 or 2]? ");
-            console.next();
-        }
-        int choice = console.nextInt();
-        console.nextLine();
-        switch(choice) {
-            case 1:
-                player = generateHumanPlayer(console);
-                break;
-            case 2:
-                player = new RandomPlayer();
-                System.out.println(player.getName() + " has been added to the game.");
-                break;
-            default:
-                System.out.println("That is not a valid option. Please try again.");
-                handleChoosePlayer(console);
-                break;
-        }
-        return player;
-    }
-
-    private Player generateHumanPlayer(Scanner console) {
-        System.out.print("Please enter a name for the player: ");
-        String name = console.nextLine();
-        Player human = new HumanPlayer(name);
-        System.out.println(name + " has been added to the game.");
-        return human;
     }
 
     private void confirmGameExit(Scanner console) {
