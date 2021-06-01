@@ -3,6 +3,7 @@ package learn.gomoku.UI;
 import learn.gomoku.game.Gomoku;
 import learn.gomoku.game.Result;
 import learn.gomoku.game.Stone;
+import learn.gomoku.players.CustomPlayer;
 import learn.gomoku.players.HumanPlayer;
 import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
@@ -87,27 +88,31 @@ public class GameMenu {
         System.out.println();
         System.out.println("1 - Human Player");
         System.out.println("2 - Random Player");
+        System.out.println("3 - Custom Player");
         System.out.println("=================================================");
-        System.out.print("What is your choice [1 or 2]? ");
+        System.out.print("What is your choice [1, 2, or 3]? ");
 
         // Need the user to enter an integer so stay in this loop until they do
         while (!console.hasNextInt()) {
             System.out.println("That is not a valid choice. Please try again.");
-            System.out.print("What is your choice [1 or 2]? ");
+            System.out.print("What is your choice [1, 2, or 3]? ");
             console.next();
         }
         // Once a choice was made, need to validate it and do something with it - switch statement made the most sense
         int choice = console.nextInt();
         console.nextLine();
 
-        // Take the user's choice and create a Human or Random player, or prompt the user again if the choice was erroneous
+        // Take the user's choice and create a Human, Random, or Custom player, or prompt the user again if the choice was erroneous
         // Set our player variable from above to either a Human or Random player
         switch (choice) {
             case 1:
-                player = generateHumanPlayer(console);
+                player = generatePlayer(console, "human");
                 break;
             case 2:
                 player = new RandomPlayer();
+                break;
+            case 3:
+                player = generatePlayer(console, "custom");
                 break;
             default:
                 // For an erroneous choice (e.g. -1 or 14)
@@ -127,14 +132,18 @@ public class GameMenu {
      * @param console An instance of Scanner for capturing user input
      * @return A new instance of a HumanPlayer, whose name is created by the user
      */
-    private Player generateHumanPlayer(Scanner console) {
+    private Player generatePlayer(Scanner console, String type) {
 
         // Prompt user for a name and capture it in a variable - don't really need validation since the user can name it whatever they want
         System.out.print("Please enter a name for the player: ");
         String name = console.nextLine();
 
-        // Return the new player so handleChoosePlayer can use it
-        return new HumanPlayer(name);
+        // If the type is custom, we'll create a Custom player. If not, we'll create a Human
+        if (type.equals("custom")) {
+            return new CustomPlayer(name);
+        } else {
+            return new HumanPlayer(name);
+        }
     }
 
     /** Method for managing a player's turn in Gomoku and updating the newGame's state based on the move
