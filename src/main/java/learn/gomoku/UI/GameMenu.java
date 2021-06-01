@@ -18,8 +18,9 @@ public class GameMenu {
     private Player player2;
     private Gomoku newGame;
 
-    /** Method to initialize player1, player2, and a new Gomoku game based on user input
-     * 
+    /**
+     * Method to initialize player1, player2, and a new Gomoku game based on user input
+     *
      * @param console An instance of Scanner for capturing user input
      */
     public void startGame(Scanner console) {
@@ -50,8 +51,9 @@ public class GameMenu {
         runGame(console);
     }
 
-    /** Method for creating and remaining within the game loop, handling player turns and printing the board, until the game is over
-     * 
+    /**
+     * Method for creating and remaining within the game loop, handling player turns and printing the board, until the game is over
+     *
      * @param console An instance of Scanner for capturing user input
      */
     private void runGame(Scanner console) {
@@ -74,7 +76,8 @@ public class GameMenu {
         confirmGameExit(console);
     }
 
-    /** Method for creating a new Human or Random player based on user's input
+    /**
+     * Method for creating a new Human or Random player based on user's input
      *
      * @param console An instance of Scanner for capturing user input
      * @return A new instance of Player interface, either HumanPlayer or RandomPlayer based on what the user chooses
@@ -127,7 +130,8 @@ public class GameMenu {
         return player;
     }
 
-    /** Method for specifically creating a Human player and having the user name the new player
+    /**
+     * Method for specifically creating a Human player and having the user name the new player
      *
      * @param console An instance of Scanner for capturing user input
      * @return A new instance of a HumanPlayer, whose name is created by the user
@@ -146,7 +150,8 @@ public class GameMenu {
         }
     }
 
-    /** Method for managing a player's turn in Gomoku and updating the newGame's state based on the move
+    /**
+     * Method for managing a player's turn in Gomoku and updating the newGame's state based on the move
      *
      * @param console An instance of Scanner for capturing user input
      */
@@ -210,7 +215,8 @@ public class GameMenu {
         }
     }
 
-    /** Simple method for rendering an updated Gomoku board based on all the moves thus far
+    /**
+     * Simple method for rendering an updated Gomoku board based on all the moves thus far
      *
      * @param board An instance of a GameBoard class representing the current game's state, to be printed to the console
      */
@@ -228,7 +234,8 @@ public class GameMenu {
         System.out.println();
     }
 
-    /** Method for restarting or exiting the game based on what the user wants to do once a game finishes
+    /**
+     * Method for restarting or exiting the game based on what the user wants to do once a game finishes
      *
      * @param console An instance of Scanner for capturing user input
      */
@@ -269,4 +276,46 @@ public class GameMenu {
             System.exit(0);
         }
     }
+
+    // method for rendering a menu for choosing black or the below two options
+    private void renderSwapTwoMenu(Scanner console, Player player) {
+        System.out.println(player.getName() + ", what would you like to do?");
+        System.out.println();
+        System.out.println("1 - Play as Black");
+        System.out.println("2 - Place one White Stone and Play as White");
+        System.out.println("3 - Place one White and one Black stone, then have Player 1 decide on color");
+        System.out.println("What is your choice [1, 2, or 3]");
+
+        while (!console.hasNextInt()) {
+            System.out.println("That is not a valid choice. Please try again.");
+            System.out.println("What is your choice [1, 2, or 3]");
+            console.next();
+        }
+        int choice = console.nextInt();
+        switch (choice) {
+            case 1:
+                playAsBlack(player2);
+            case 2:
+                placeWhiteStoneAndPlayAsWhite(player2);
+                break;
+            case 3:
+                placeOneBlackOneWhiteAndPlayerOneChoose(player2);
+                break;
+        }
+    }
+    private void playAsBlack(Player player) {
+
+    }
+
+    private void placeWhiteStoneAndPlayAsWhite(Player player) {
+
+    }
+
+    private void placeOneBlackOneWhiteAndPlayerOneChoose(Player player) {
+        
+    }
+    // method for playing as white and placing one more white stone
+    // prompt for white stone placement
+    // place stone, render board, and start game loop with first player as black
+    // method for placing two more stones and letting first player choose color
 }

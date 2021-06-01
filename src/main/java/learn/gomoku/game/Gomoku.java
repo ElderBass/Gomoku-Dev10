@@ -142,5 +142,4 @@ public class Gomoku {
 
         return result;
     }
-
 }
