@@ -200,7 +200,7 @@ public class GameMenu {
                 currentTurn = new Stone(row, col, false);
             }
         }
-        // Assign our Result variable to the Result that is return by passing our currentTurn stone into the .place method
+        // Assign our Result variable to the Result that is returned by passing our currentTurn stone into the .place method
         res = newGame.place(currentTurn);
 
         // If the res.getMessage() is null, that means a move was made successfully and the game is still going
@@ -312,7 +312,7 @@ public class GameMenu {
     }
 
     private void placeOneBlackOneWhiteAndPlayerOneChoose(Player player) {
-        
+
     }
     // method for playing as white and placing one more white stone
     // prompt for white stone placement
